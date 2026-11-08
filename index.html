@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b6e79">
+  <meta name="description" content="Rata Iti — démo de boîte aux lettres virtuelle : sachez si vous avez du courrier avant de vous déplacer.">
+  <title>Rata Iti — Boîte aux lettres virtuelle (démo)</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <button id="btnBack" class="icon-btn hidden" aria-label="Retour">←</button>
+    <div class="brand">
+      <img src="icon.svg" alt="" class="brand-logo">
+      <div>
+        <div class="brand-name">Rata Iti</div>
+        <div class="brand-sub" id="subtitle"></div>
+      </div>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Langue / Reo">
+      <button data-lang="fr">FR</button>
+      <button data-lang="ty">TAH</button>
+    </div>
+  </header>
+  <div class="tapa-band"></div>
+
+  <main id="app">
+
+    <!-- ========== ACCUEIL ========== -->
+    <section id="screen-home" class="screen">
+      <div class="hero">
+        <svg class="hero-art" viewBox="0 0 400 120" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+          <circle cx="320" cy="62" r="26" fill="#f6c344" opacity=".9"/>
+          <path d="M0 120 L0 92 Q60 40 120 80 Q170 20 230 76 Q290 54 340 88 Q370 80 400 92 L400 120 Z" fill="#0a5a63" opacity=".55"/>
+          <path d="M0 120 L0 104 Q50 94 100 104 T200 104 T300 104 T400 104 L400 120 Z" fill="#6cc5c9" opacity=".8"/>
+          <g stroke="#073f45" stroke-width="3" fill="none" opacity=".7">
+            <path d="M70 100 Q74 70 66 46"/><path d="M66 46 q-14 -2 -22 8 M66 46 q14 -4 22 6 M66 46 q-4 -12 -16 -14 M66 46 q6 -12 18 -12"/>
+          </g>
+        </svg>
+        <div class="hero-text">
+          <h1 data-i18n="home.title"></h1>
+          <p data-i18n-html="home.lead"></p>
+        </div>
+      </div>
+
+      <button class="role-card" data-go="user">
+        <span class="role-emoji">📱</span>
+        <span><strong data-i18n="home.user"></strong><br><small data-i18n="home.userSub"></small></span>
+      </button>
+      <button class="role-card" data-go="postman">
+        <span class="role-emoji">📮</span>
+        <span><strong data-i18n="home.postman"></strong><br><small data-i18n="home.postmanSub"></small></span>
+      </button>
+      <button class="role-card light" data-go="plans">
+        <span class="role-emoji">🛶</span>
+        <span><strong data-i18n="home.plans"></strong><br><small data-i18n="home.plansSub"></small></span>
+      </button>
+
+      <div class="tip" data-i18n-html="home.tip"></div>
+
+      <div class="home-actions">
+        <button id="btnSeed" class="btn ghost" data-i18n="home.seed"></button>
+        <button id="btnReset" class="btn ghost danger" data-i18n="home.reset"></button>
+      </div>
+
+      <p class="disclaimer" data-i18n="home.disclaimer"></p>
+    </section>
+
+    <!-- ========== USAGER : CONNEXION ========== -->
+    <section id="screen-user-login" class="screen hidden">
+      <h2 class="title-vaa" data-i18n="login.title"></h2>
+      <p class="muted" data-i18n="login.lead"></p>
+      <form id="formLogin" class="card form">
+        <label><span data-i18n="login.name"></span>
+          <input id="loginName" required data-i18n-ph="login.namePh" autocomplete="name">
+        </label>
+        <label><span data-i18n="login.bp"></span>
+          <input id="loginBp" required inputmode="numeric" pattern="[0-9]{1,6}" placeholder="1234">
+        </label>
+        <label><span data-i18n="login.cp"></span>
+          <select id="loginCp" class="cp-select"></select>
+        </label>
+        <button class="btn primary" type="submit" data-i18n="login.submit"></button>
+      </form>
+    </section>
+
+    <!-- ========== USAGER : VÉRIFICATION ========== -->
+    <section id="screen-user-verify" class="screen hidden">
+      <h2 class="title-vaa" data-i18n="verify.title"></h2>
+      <div class="card">
+        <p data-i18n-html="verify.lead"></p>
+        <form id="formVerify" class="form">
+          <label><span data-i18n="verify.code"></span>
+            <input id="verifyCode" required inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="••••••" class="code-input">
+          </label>
+          <button class="btn primary" type="submit" data-i18n="verify.submit"></button>
+        </form>
+        <p class="muted small" id="verifyStatus"></p>
+      </div>
+      <div class="tip" data-i18n-html="verify.tip"></div>
+      <button class="btn ghost" id="btnVerifyLogout" data-i18n="user.logout"></button>
+    </section>
+
+    <!-- ========== USAGER : BOÎTE ========== -->
+    <section id="screen-user" class="screen hidden">
+      <div class="box-status card" id="boxStatus">
+        <div class="mailbox-visual" id="mailboxVisual">📭</div>
+        <div>
+          <div class="box-title" id="boxTitle"></div>
+          <div class="box-count" id="boxCount"></div>
+          <div class="box-detail" id="boxDetail"></div>
+        </div>
+      </div>
+
+      <div class="chips" id="filterChips">
+        <button class="chip active" data-filter="all" data-i18n="filter.all"></button>
+        <button class="chip" data-filter="lettre">✉️ <span data-i18n="type.lettre"></span></button>
+        <button class="chip" data-filter="colis">📦 <span data-i18n="type.colis"></span></button>
+        <button class="chip" data-filter="recommande">🔏 <span data-i18n="type.recommande"></span></button>
+        <button class="chip" data-filter="pub">📰 <span data-i18n="type.pub"></span></button>
+      </div>
+
+      <div id="mailList" class="mail-list"></div>
+
+      <div class="sticky-actions">
+        <button id="btnCollected" class="btn primary" data-i18n="user.collected"></button>
+      </div>
+
+      <details class="card small">
+        <summary data-i18n="user.history"></summary>
+        <div id="historyList" class="mail-list compact"></div>
+      </details>
+
+      <details class="card small" id="prefsPanel">
+        <summary data-i18n="prefs.title"></summary>
+        <form id="formPrefs" class="form prefs">
+          <label><span data-i18n="prefs.urgent"></span>
+            <select id="prefUrgent">
+              <option value="now" data-i18n="prefs.now"></option>
+              <option value="summary" data-i18n="prefs.summary"></option>
+              <option value="off" data-i18n="prefs.off"></option>
+            </select>
+          </label>
+          <label><span data-i18n="prefs.letters"></span>
+            <select id="prefLetters">
+              <option value="now" data-i18n="prefs.now"></option>
+              <option value="summary" data-i18n="prefs.summary"></option>
+              <option value="off" data-i18n="prefs.off"></option>
+            </select>
+          </label>
+          <label><span data-i18n="prefs.pub"></span>
+            <select id="prefPub">
+              <option value="summary" data-i18n="prefs.summary"></option>
+              <option value="off" data-i18n="prefs.off"></option>
+            </select>
+          </label>
+          <label class="check"><input type="checkbox" id="prefSms"> <span data-i18n="prefs.sms"></span></label>
+          <label id="prefPhoneWrap" class="hidden"><span data-i18n="prefs.phone"></span>
+            <input id="prefPhone" inputmode="tel" placeholder="87 00 00 00">
+          </label>
+          <label class="check"><input type="checkbox" id="prefLarge"> <span data-i18n="prefs.large"></span></label>
+          <button type="button" id="btnNotif" class="btn secondary" data-i18n="prefs.enablePush"></button>
+          <button type="button" id="btnSummary" class="btn ghost" data-i18n="prefs.showSummary"></button>
+        </form>
+      </details>
+
+      <div class="row-actions">
+        <button id="btnLogout" class="btn ghost" data-i18n="user.logout"></button>
+      </div>
+      <p class="disclaimer" data-i18n="user.privacy"></p>
+    </section>
+
+    <!-- ========== AGENT POSTAL ========== -->
+    <section id="screen-postman" class="screen hidden">
+      <div class="net-bar" id="netBar">
+        <span id="netStatus"></span>
+        <label class="switch"><input type="checkbox" id="simOffline"> <span data-i18n="post.simOffline"></span></label>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="deposit" data-i18n="post.tabDeposit"></button>
+        <button class="tab" data-tab="codes"><span data-i18n="post.tabCodes"></span> <span class="badge hidden" id="codesBadge">0</span></button>
+        <button class="tab" data-tab="counter" data-i18n="post.tabCounter"></button>
+        <button class="tab" data-tab="labels" data-i18n="post.tabLabels"></button>
+      </div>
+
+      <!-- Dépôt -->
+      <div class="tab-panel" id="tab-deposit">
+        <form id="formDeposit" class="card form">
+          <button type="button" class="btn scan-btn" id="btnScanBp" data-i18n="post.scanBp"></button>
+          <label><span data-i18n="post.bp"></span>
+            <div class="bp-row">
+              <span class="prefix">BP</span>
+              <input id="depBp" required inputmode="numeric" pattern="[0-9]{1,6}" placeholder="1234" list="knownBps">
+              <select id="depCp" class="cp-select cp-short" aria-label="Code postal"></select>
+            </div>
+            <datalist id="knownBps"></datalist>
+            <small id="bpOwner" class="muted"></small>
+          </label>
+
+          <fieldset class="types">
+            <legend data-i18n="post.type"></legend>
+            <label class="type"><input type="radio" name="type" value="lettre" checked><span>✉️<br><b data-i18n="type.lettre"></b></span></label>
+            <label class="type"><input type="radio" name="type" value="colis"><span>📦<br><b data-i18n="type.colis"></b></span></label>
+            <label class="type"><input type="radio" name="type" value="recommande"><span>🔏<br><b data-i18n="type.recommandeShort"></b></span></label>
+            <label class="type"><input type="radio" name="type" value="pub"><span>📰<br><b data-i18n="type.pub"></b></span></label>
+          </fieldset>
+
+          <div id="colisOptions" class="hidden">
+            <label class="check"><input type="checkbox" id="depGuichet"> <span data-i18n="post.guichet"></span></label>
+            <label><span data-i18n="post.tracking"></span>
+              <input id="depTracking" placeholder="CP123456789FR">
+            </label>
+          </div>
+
+          <label><span data-i18n="post.sender"></span>
+            <input id="depSender" data-i18n-ph="post.senderPh" list="senders">
+            <datalist id="senders">
+              <option value="CPS"><option value="EDT Engie"><option value="Polynésienne des Eaux">
+              <option value="Banque de Tahiti"><option value="Banque Socredo"><option value="Vini">
+              <option value="Trésor public"><option value="Amazon"><option value="Particulier">
+            </datalist>
+          </label>
+
+          <div class="photo-zone">
+            <input type="file" id="depPhoto" accept="image/*" capture="environment" hidden>
+            <button type="button" id="btnPhoto" class="btn secondary" data-i18n="post.photo"></button>
+            <img id="photoPreview" class="photo-preview hidden" alt="">
+            <small class="muted" data-i18n="post.photoHint"></small>
+          </div>
+
+          <label><span data-i18n="post.qty"></span>
+            <div class="qty">
+              <button type="button" class="btn ghost" id="qtyMinus">−</button>
+              <input id="depQty" type="number" min="1" max="50" value="1">
+              <button type="button" class="btn ghost" id="qtyPlus">+</button>
+            </div>
+          </label>
+
+          <button class="btn primary big" type="submit" data-i18n="post.submit"></button>
+        </form>
+
+        <div class="queue card hidden" id="queueBox">
+          <strong id="queueText"></strong>
+          <div id="queueList" class="mail-list compact"></div>
+        </div>
+
+        <h3><span data-i18n="post.today"></span> <span id="todayCount" class="badge">0</span></h3>
+        <div id="depositLog" class="mail-list compact"></div>
+      </div>
+
+      <!-- Codes de vérification à déposer -->
+      <div class="tab-panel hidden" id="tab-codes">
+        <p class="muted" data-i18n="post.codesLead"></p>
+        <div id="codesList" class="mail-list"></div>
+      </div>
+
+      <!-- Guichet : remise des colis -->
+      <div class="tab-panel hidden" id="tab-counter">
+        <p class="muted" data-i18n="post.counterLead"></p>
+        <button type="button" class="btn primary big" id="btnScanPickup" data-i18n="post.scanPickup"></button>
+        <h3 data-i18n="post.waitingCounter"></h3>
+        <div id="counterList" class="mail-list compact"></div>
+        <h3 data-i18n="post.reports"></h3>
+        <div id="reportList" class="mail-list compact"></div>
+      </div>
+
+      <!-- Étiquettes QR -->
+      <div class="tab-panel hidden" id="tab-labels">
+        <p class="muted" data-i18n="post.labelsLead"></p>
+        <form id="formLabels" class="card form inline-form">
+          <label><span data-i18n="post.from"></span> <input id="lblFrom" type="number" min="1" value="1200"></label>
+          <label><span data-i18n="post.to"></span> <input id="lblTo" type="number" min="1" value="1211"></label>
+          <label><span data-i18n="login.cp"></span> <select id="lblCp" class="cp-select cp-short"></select></label>
+          <button class="btn secondary" type="submit" data-i18n="post.makeLabels"></button>
+        </form>
+        <div id="labelsSheet" class="labels-sheet"></div>
+        <button type="button" class="btn ghost hidden" id="btnPrintLabels" data-i18n="post.print"></button>
+      </div>
+    </section>
+
+    <!-- ========== ABONNEMENTS ========== -->
+    <section id="screen-plans" class="screen hidden">
+      <h2 class="title-vaa" data-i18n="plans.title"></h2>
+      <p class="muted" data-i18n="plans.lead"></p>
+
+      <div class="plan card">
+        <div class="plan-head"><h3>Iti</h3><span class="price" data-i18n="plans.free"></span></div>
+        <ul data-i18n-list="plans.iti"></ul>
+      </div>
+      <div class="plan card featured">
+        <div class="plan-head"><h3>Rahi</h3><span class="price">300 XPF<small data-i18n="plans.month"></small></span></div>
+        <ul data-i18n-list="plans.rahi"></ul>
+      </div>
+      <div class="plan card">
+        <div class="plan-head"><h3>ʻUtuāfare / Pro</h3><span class="price">800 XPF<small data-i18n="plans.month"></small></span></div>
+        <ul data-i18n-list="plans.pro"></ul>
+      </div>
+      <div class="tip" data-i18n="plans.tip"></div>
+    </section>
+
+  </main>
+
+  <!-- Fenêtre de scan -->
+  <div id="scanner" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <h3 id="scanTitle"></h3>
+      <video id="scanVideo" playsinline muted class="hidden"></video>
+      <p class="muted small" id="scanHint"></p>
+      <form id="formScanManual" class="form">
+        <label><span data-i18n="scan.manual"></span>
+          <input id="scanManual" autocomplete="off">
+        </label>
+        <button class="btn primary" type="submit" data-i18n="scan.ok"></button>
+      </form>
+      <button class="btn ghost" id="btnScanClose" data-i18n="scan.close"></button>
+    </div>
+  </div>
+
+  <!-- Fenêtre générique (QR de retrait, résumé…) -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div id="modalBody"></div>
+      <button class="btn ghost" id="btnModalClose" data-i18n="scan.close"></button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="qrcode.js"></script>
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

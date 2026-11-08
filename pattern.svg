@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <g fill="none" stroke="#0b6e79" stroke-opacity=".07" stroke-width="2" stroke-linecap="round">
+    <!-- petite va'a -->
+    <g transform="translate(18 18) scale(.5)">
+      <path d="M50 66 C 40 46, 30 28, 20 10 C 34 18, 44 22, 52 22 C 50 36, 52 52, 50 66 Z"/>
+      <path d="M50 66 C 52 52, 50 36, 52 22 C 60 18, 70 12, 80 4 C 72 26, 62 48, 50 66 Z"/>
+      <path d="M8 66 Q 12 76 26 76 L 76 76 Q 90 76 94 62 Q 84 70 70 70 L 22 70 Q 14 70 8 66 Z"/>
+      <path d="M18 84 Q 44 90 72 84 M34 70 L30 82 M60 70 L58 82"/>
+    </g>
+    <!-- vagues -->
+    <path d="M10 130 q10 -10 20 0 t20 0 t20 0"/>
+    <path d="M96 70 q10 -10 20 0 t20 0 t20 0"/>
+    <!-- motif tatau : dents de requin -->
+    <path d="M100 120 l8 -12 l8 12 l8 -12 l8 12 l8 -12 l8 12"/>
+    <!-- étoile de navigation -->
+    <path d="M128 22 l5 10 l-5 10 l-5 -10 z M118 32 h20"/>
+  </g>
+</svg>

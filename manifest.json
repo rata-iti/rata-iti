@@ -1,0 +1,15 @@
+{
+  "name": "Rata Iti — Boîte aux lettres virtuelle",
+  "short_name": "Rata Iti",
+  "description": "Sachez si vous avez du courrier ou un colis avant de vous déplacer.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbf6ec",
+  "theme_color": "#0b6e79",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

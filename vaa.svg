@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- voile en pince de crabe -->
+  <path d="M50 66 C 40 46, 30 28, 20 10 C 34 18, 44 22, 52 22 C 50 36, 52 52, 50 66 Z" fill="#e8664a"/>
+  <path d="M50 66 C 52 52, 50 36, 52 22 C 60 18, 70 12, 80 4 C 72 26, 62 48, 50 66 Z" fill="#f6c344"/>
+  <path d="M50 66 L50 22" stroke="#5a3a22" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- balancier (ama + iato) -->
+  <path d="M34 70 L30 82 M60 70 L58 82" stroke="#5a3a22" stroke-width="3" stroke-linecap="round"/>
+  <path d="M18 84 Q 44 90 72 84" stroke="#5a3a22" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- coque -->
+  <path d="M8 66 Q 12 76 26 76 L 76 76 Q 90 76 94 62 Q 84 70 70 70 L 22 70 Q 14 70 8 66 Z" fill="#5a3a22"/>
+  <path d="M24 72 h48" stroke="#f3e6cc" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <!-- vague -->
+  <path d="M4 92 q8 -6 16 0 t16 0 t16 0 t16 0 t16 0 t16 0" stroke="#1597a3" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>
