@@ -230,6 +230,7 @@ function renderVerify() {
   const box = s && loadStore().boxes[boxKey(s.bp, s.cp)];
   if (!box) return;
   $('#verifyStatus').textContent = box.codeDeposited ? t('verify.deposited') : t('verify.waiting');
+  if (!box.codeDeposited) $('#demoCode').classList.add('hidden');
 }
 
 $('#formVerify').addEventListener('submit', e => {
@@ -246,6 +247,21 @@ $('#formVerify').addEventListener('submit', e => {
   } else {
     toast(t('verify.bad'));
   }
+});
+
+/* Démo : simule l'agent qui dépose le code dans la BP, puis affiche le papier */
+$('#btnDemoCode').addEventListener('click', () => {
+  const s = loadSession();
+  const data = loadStore();
+  const box = s && data.boxes[boxKey(s.bp, s.cp)];
+  if (!box) return;
+  box.codeDeposited = true;
+  saveStore(data);
+  const el = $('#demoCode');
+  el.textContent = t('verify.demoCode', { code: box.code });
+  el.classList.remove('hidden');
+  $('#verifyCode').value = box.code;
+  renderVerify();
 });
 
 $('#btnVerifyLogout').addEventListener('click', () => { saveSession(null); go('user-login'); });

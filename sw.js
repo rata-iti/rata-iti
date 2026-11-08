@@ -1,5 +1,5 @@
 // Service worker : permet d'installer l'app et de l'ouvrir hors ligne.
-const CACHE = 'rata-iti-v2';
+const CACHE = 'rata-iti-v3';
 const FILES = ['./', './index.html', './style.css', './app.js', './i18n.js', './qrcode.js',
   './manifest.json', './icon.svg', './vaa.svg', './tapa.svg', './pattern.svg'];
 

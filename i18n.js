@@ -41,11 +41,13 @@ const I18N = {
     'verify.lead': 'Pour protéger votre courrier, un <strong>code à 6 chiffres</strong> va être déposé <strong>dans votre vraie boîte postale</strong> par l\'agent. Seul le titulaire de la clé peut le lire.',
     'verify.code': 'Code reçu dans ma BP',
     'verify.submit': 'Valider',
-    'verify.tip': '🧪 <strong>Démo :</strong> dans l\'onglet « agent postal », ouvrez « Codes » pour voir le code à déposer.',
+    'verify.tip': '🧪 <strong>Démo :</strong> appuyez sur « simuler le passage de l\'agent » pour voir le code, ou ouvrez l\'espace « agent postal » dans un autre onglet, puis « Codes ».',
     'verify.bad': 'Code incorrect. Vérifiez le papier déposé dans votre boîte.',
     'verify.ok': 'Boîte vérifiée. Māuruuru !',
     'verify.waiting': 'En attente : l\'agent n\'a pas encore déposé le code.',
     'verify.deposited': '✔ Le code a été déposé dans votre boîte.',
+    'verify.demoBtn': '🧪 Démo : simuler le passage de l\'agent',
+    'verify.demoCode': 'Le papier dans votre boîte indique : {code}',
 
     'filter.all': 'Tout',
     'type.lettre': 'Lettre',
@@ -218,6 +220,7 @@ const I18N = {
     'verify.bad': 'ʻAita i tano te tāpaʻo huna.',
     'verify.ok': 'Ua haʻapāpūhia. Māuruuru !',
     'verify.deposited': '✔ Ua tuʻuhia te tāpaʻo huna i roto i tōʻu ʻāfata.',
+    'verify.demoCode': 'Te tāpaʻo huna : {code}',
 
     'filter.all': 'Pauroa',
     'type.lettre': 'Rata',
